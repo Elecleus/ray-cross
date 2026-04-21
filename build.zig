@@ -6,6 +6,7 @@ pub fn build(b: *std.Build) !void {
     const optimize = b.standardOptimizeOption(.{});
 
     const raylib_dep = b.dependency("raylib_zig", .{
+        .linkage = .dynamic,
         .target = target,
         .optimize = optimize,
     });
