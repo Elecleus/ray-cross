@@ -9,6 +9,7 @@ pub fn build(b: *std.Build) !void {
         .linkage = .dynamic,
         .target = target,
         .optimize = optimize,
+        .linux_display_backend = .Wayland,
     });
     const raylib = raylib_dep.module("raylib");
     // const raylib_artifact = raylib_dep.artifact("raylib");
