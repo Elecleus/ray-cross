@@ -9,15 +9,15 @@ const Board = @This();
 
 const Chess = chess.Chess;
 
-chesses: [40]?Chess = .{
-    .circle, .circle, .circle, .circle, .circle, // Fake Home
-    null,    null,    null,    null,    null,
-    null,    null,    null,    null,    null,
-    null,    null,    null,    null,    null,
-    null,    null,    null,    null,    null,
-    null,    null,    null,    null,    null,
-    null,    null,    null,    null,    null,
-    .circle, .circle, .circle, .circle, .circle, // Fake Home
+chesses: [8][5]?Chess = .{
+    .{ .circle, .circle, .circle, .circle, .circle }, // Fake Home
+    .{ null, null, null, null, null },
+    .{ null, null, null, null, null },
+    .{ null, null, null, null, null },
+    .{ null, null, null, null, null },
+    .{ null, null, null, null, null },
+    .{ null, null, null, null, null },
+    .{ .circle, .circle, .circle, .circle, .circle }, // Fake Home
 },
 
 center: rl.Vector2,
@@ -33,10 +33,11 @@ pub fn get_cell_center(self: *const Board, x: u8, y: u8) rl.Vector2 {
 }
 
 pub fn draw(self: *const Board) void {
-    draw_board(self);
+    self.draw_board();
+    self.draw_base();
 }
 
-const cell_width: f32 = 16.0;
+const cell_width: f32 = 24.0;
 const cell_height: f32 = cell_width;
 
 fn get_draw_base(self: *const Board) rl.Vector2 {
@@ -45,7 +46,7 @@ fn get_draw_base(self: *const Board) rl.Vector2 {
         .add(rl.Vector2.init(cell_width, cell_height).scale(-3));
 }
 
-pub fn draw_board(self: *const Board) void {
+fn draw_board(self: *const Board) void {
     const base = self.get_draw_base();
 
     const x_axis = blk: {
@@ -86,6 +87,26 @@ pub fn draw_board(self: *const Board) void {
             else => rl.drawLineV(start, start.add(x_extend), color),
         }
     }
+}
+
+fn draw_base(self: *const Board) void {
+    const bar_width = cell_width * 5;
+    const bar_height = 12;
+    const bar_gap = 4;
+
+    rl.drawRectangleV(
+        self.get_draw_base()
+            .add(rl.Vector2.init(0, -bar_gap - bar_height)),
+        rl.Vector2.init(bar_width, bar_height),
+        color,
+    );
+
+    rl.drawRectangleV(
+        self.get_draw_base()
+            .add(rl.Vector2.init(0, cell_height * 6 + bar_gap)),
+        rl.Vector2.init(bar_width, bar_height),
+        color,
+    );
 }
 
 const color: rl.Color = .pink;
