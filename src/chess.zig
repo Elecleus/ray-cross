@@ -15,10 +15,11 @@ pub const Chess = union(enum) {
     u_triangle: UTriangle,
     d_triangle: DTriangle,
 
-    pub fn draw(self: *Chess, base: rl.Vector2) void {
-        switch (self) {
-            .square => |s| s.draw(base),
-            _ => {},
+    pub fn draw(self: *const Chess, base: rl.Vector2) void {
+        switch (self.*) {
+            .square => Square.draw(base),
+            .circle => Circle.draw(base),
+            else => {},
         }
     }
 };

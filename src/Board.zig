@@ -26,6 +26,22 @@ pub fn init(center: rl.Vector2) Board {
     return Board{ .center = center };
 }
 
+pub fn put_at(self: *Board, chess_type: Chess, c_index: u8, r_index: u8) !void {
+    const i = r_index + 1;
+    const j = c_index;
+
+    if (self.chesses[i][j] == null) {
+        self.chesses[i][j] = chess_type;
+    } else return error.BoardCellOccupied;
+}
+
+pub fn get_at(self: *const Board, c_index: u8, r_index: u8) ?Chess {
+    const i = r_index + 1;
+    const j = c_index;
+
+    return self.chesses[i][j];
+}
+
 pub fn get_cell_center(self: *const Board, x: u8, y: u8) rl.Vector2 {
     return self.get_draw_base()
         .add(rl.Vector2.init(cell_width / 2, cell_height / 2))
