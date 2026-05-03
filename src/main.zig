@@ -8,11 +8,14 @@ const chess = @import("chess.zig");
 const Board = @import("Board.zig");
 const Game = @import("Game.zig");
 
+const window_width = 300;
+const window_height = 400;
+
 pub fn main() !void {
-    rl.initWindow(200, 200, "Ray Cross");
+    rl.initWindow(window_width, window_height, "Ray Cross");
     defer rl.closeWindow();
 
-    const base = rl.Vector2.init(100, 100);
+    const base = rl.Vector2.init(window_width / 2, window_height / 2);
     var game = Game.init(base);
 
     rl.setTargetFPS(60);
@@ -20,6 +23,8 @@ pub fn main() !void {
     try game.put_chess_at(.{ .circle = .{} }, 4, 5);
 
     while (!rl.windowShouldClose()) {
+        game.handle_input();
+
         rl.beginDrawing();
         defer rl.endDrawing();
 

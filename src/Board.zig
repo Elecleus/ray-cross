@@ -53,8 +53,8 @@ pub fn draw(self: *const Board) void {
     self.draw_base();
 }
 
-const cell_width: f32 = 24.0;
-const cell_height: f32 = cell_width;
+pub const cell_width: f32 = 24.0;
+pub const cell_height: f32 = cell_width;
 
 fn get_draw_base(self: *const Board) rl.Vector2 {
     return self.center
